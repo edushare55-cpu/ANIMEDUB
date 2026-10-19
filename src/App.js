@@ -129,6 +129,7 @@ const allAnime = genres.flatMap((genre) => genre.anime);
 function App() {
   const [genreOpen, setGenreOpen] = useState(false);
   const [selectedAnime, setSelectedAnime] = useState(null);
+  const [selectedPart, setSelectedPart] = useState(1);
   const [search, setSearch] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -149,10 +150,12 @@ function App() {
 
   const watchAnime = (anime) => {
     setSelectedAnime(anime);
+    setSelectedPart(1);
   };
 
   const closeModal = () => {
     setSelectedAnime(null);
+    setSelectedPart(1);
   };
 
   const filteredAnime = allAnime.filter((anime) =>
@@ -735,17 +738,57 @@ function App() {
               {selectedAnime.title === "Horimiya" ? (
                 <div className="video-player-container">
                   <h3 className="player-heading">Episode 1</h3>
+
+                  <div
+                    className="part-buttons"
+                    role="group"
+                    aria-label="Piliin ang video part"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "10px",
+                      flexWrap: "wrap",
+                      margin: "0 0 14px"
+                    }}
+                  >
+                    {[1, 2].map((part) => (
+                      <button
+                        key={part}
+                        type="button"
+                        onClick={() => setSelectedPart(part)}
+                        aria-pressed={selectedPart === part}
+                        style={{
+                          padding: "10px 18px",
+                          borderRadius: "8px",
+                          border: selectedPart === part ? "1px solid #b794f6" : "1px solid #51436b",
+                          background: selectedPart === part ? "#7c3aed" : "#211a2e",
+                          color: "#fff",
+                          fontWeight: 700,
+                          cursor: "pointer"
+                        }}
+                      >
+                        Part {part}
+                      </button>
+                    ))}
+                  </div>
+
                   <video
+                    key={selectedPart}
                     className="anime-video-player"
                     controls
                     playsInline
                     preload="metadata"
-                    aria-label="Horimiya Episode 1 video player"
+                    aria-label={`Horimiya Episode 1 Part ${selectedPart} video player`}
                   >
-                    <source src="/videos/horimiya.mp4" type="video/mp4" />
+                    <source
+                      src={`/videos/part${selectedPart}.mp4`}
+                      type="video/mp4"
+                    />
                     Hindi suportado ng browser mo ang video playback.
                   </video>
-                  <p className="player-note">Horimiya • Episode 1</p>
+                  <p className="player-note">
+                    Horimiya • Episode 1 • Part {selectedPart}
+                  </p>
                 </div>
               ) : (
                 <div className="video-placeholder">
