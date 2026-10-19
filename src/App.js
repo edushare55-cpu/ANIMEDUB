@@ -781,9 +781,13 @@ function App() {
                     aria-label={`Horimiya Episode 1 Part ${selectedPart} video player`}
                   >
                     <source
-                      src={`/videos/part${selectedPart}.mp4`}
-                      type="video/mp4"
-                    />
+  src={
+    selectedPart === 1 || selectedPart === "1"
+      ? "https://res.cloudinary.com/yst0tozn/video/upload/v1792393321/part1.mp4"
+      : "https://res.cloudinary.com/yst0tozn/video/upload/v1792393473/part2.mp4"
+  }
+  type="video/mp4"
+/>
                     Hindi suportado ng browser mo ang video playback.
                   </video>
                   <p className="player-note">
